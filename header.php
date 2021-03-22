@@ -1,4 +1,4 @@
-<?php //session_start(); ?>
+<?php session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReduceLink | Site Officiel</title>
+    <title>ReduceLink | Site Official</title>
     <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
@@ -15,8 +15,8 @@
         <a href="index.php" class="nav-brand">ReduceLink.</a>
         <ul class="nav-items">
             <?php if (isset($_SESSION["user"])): ?>
-                <li><a href="profil.php">Profil</a></li>
-                <li><a href="logout.php">Se deconnecter</a></li>
+                <li><a href="profile.php">Profile</a></li>
+                <li><a href="./includes/logout.inc.php">Se deconnecter</a></li>
             <?php else: ?>
                 <li><a href="signin.php">Se connecter</a></li>
                 <li><a href="signup.php">S'inscrire</a></li>
