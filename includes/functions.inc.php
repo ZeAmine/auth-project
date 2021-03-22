@@ -83,17 +83,6 @@ function createUser($pdo, $user, $email, $password)
 
 //____________________LOGIN______________________________
 
-//function emptyInputSignin($username, $password)
-//{
-//    $result;
-//    if (empty($username) || empty($password)) {
-//        $result = true;
-//    } else {
-//        $result = false;
-//    }
-//    return $result;
-//}
-
 function loginUser($pdo, $user, $pass)
 {
     if (!empty($user) || !empty($pass)) {
@@ -110,10 +99,10 @@ function loginUser($pdo, $user, $pass)
             } elseif ($checkPwd == true) {
                 session_start();
                 $_SESSION["user"] = $resultData["userName"];
-                header("location: ../signup.php");
+                header("location: ../index.php");
                 exit();
             } else {
-                header("location: ../signin.php?error=dazdzad");
+                header("location: ../signin.php?error=wrongpass");
                 exit();
             }
 

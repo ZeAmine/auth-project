@@ -1,4 +1,3 @@
-
 <?php require_once('header.php') ?>
 
 <section class="signin">
@@ -16,8 +15,7 @@
         } else if ($_GET["error"] == "wrongpass") {
             echo "<p>Mot de passe incorrect. Veuillez réessayer.</p>";
         } else if ($_GET["error"] == "nouser") {
-//            echo "<p>Ce nom d'utilisateur n'existe pas.</p>";
-            echo "<p>Il manque un nom d'utilisateur fdp.</p>";
+            echo "<p>Ce nom d'utilisateur n'existe pas.</p>";
         }
     }
     ?>
