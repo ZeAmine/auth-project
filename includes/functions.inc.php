@@ -2,7 +2,6 @@
 
 function emptyInputSignup($user, $email, $password, $confirmPwd)
 {
-    $result;
     if (empty($user) || empty($email) || empty($password) || empty($confirmPwd)) {
         $result = true;
     } else {
@@ -13,7 +12,6 @@ function emptyInputSignup($user, $email, $password, $confirmPwd)
 
 function invalidUid($user)
 {
-    $result;
     if (!preg_match("/^[a-zA-Z0-9]*$/", $user)) {
         $result = true;
     } else {
@@ -24,7 +22,6 @@ function invalidUid($user)
 
 function invalidEmail($email)
 {
-    $result;
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $result = true;
     } else {
@@ -35,7 +32,6 @@ function invalidEmail($email)
 
 function pwdMatch($password, $confirmPwd)
 {
-    $result;
     if ($password !== $confirmPwd) {
         $result = true;
     } else {
@@ -44,8 +40,9 @@ function pwdMatch($password, $confirmPwd)
     return $result;
 }
 
-function createUser($pdo, $user, $email, $password)
+function createUser($pdo, $user, $email, $password, $nbUrl)
 {
+    $nbUrl = 0;
     $stmt = $pdo->prepare("
         SELECT * FROM users WHERE userName = :userName OR userEmail = :userEmail
     ");
@@ -54,13 +51,12 @@ function createUser($pdo, $user, $email, $password)
         ":userName" => $user,
         ":userEmail" => $email,
     ]);
-
     $result = $stmt->rowCount();
 
     if ($result == 0) {
         $stmt = $pdo->prepare("
-            INSERT INTO users (userName, userEmail, userPassword)
-            VALUES (:userName, :userEmail, :userPassword)
+            INSERT INTO users (userName, userEmail, userPassword, nbUrl)
+            VALUES (:userName, :userEmail, :userPassword, :nbUrl)
         ");
 
         $hashPwd = password_hash($password, PASSWORD_DEFAULT);
@@ -69,6 +65,7 @@ function createUser($pdo, $user, $email, $password)
             ":userName" => $user,
             ":userEmail" => $email,
             ":userPassword" => $hashPwd,
+            ":nbUrl" => $nbUrl,
         ]);
 
         header("location: ../signup.php?error=none");
@@ -99,6 +96,7 @@ function loginUser($pdo, $user, $pass)
             } elseif ($checkPwd == true) {
                 session_start();
                 $_SESSION["user"] = $resultData["userName"];
+                $_SESSION["pass"] = $resultData["userPassword"];
                 header("location: ../profile.php");
                 exit();
             } else {

@@ -24,9 +24,13 @@
         //                    }
         //                }
         //         ?>
-        <?php if ($_GET["error"] == "none"): ?>
+        <?php 
+        if ($_GET["error"] == "none"): 
+        ?>
             <p><?= $_SESSION["short"] ?></p>
-        <?php endif; ?>
+        <?php 
+    endif; 
+    ?>
     </div>
 </section>
 
