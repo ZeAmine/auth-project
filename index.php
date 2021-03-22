@@ -9,10 +9,12 @@
                    required>
             <button type="submit" name="submit_url" value="shorten">Raccourcir</button>
         </form>
-<!--        --><?php //if ($_GET["error"] == "none"): ?>
-<!--            <p>--><?//= $_SESSION["short"] ?><!--</p>-->
-<!--        --><?php //endif; ?>
     </div>
+    <?php if (isset($_SESSION["short"]) && isset($_SESSION["url"])): ?>
+        <div class="container-url">
+            <a href="<?= $_SESSION["url"] ?>" target="_blank">http://localhost/v.php?key=<?= $_SESSION["short"] ?></a>
+        </div>
+    <?php endif; ?>
 </section>
 
 <?php require_once('footer.php'); ?>
