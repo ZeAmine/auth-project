@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReduceLink | Site Officiel</title>
+    <title>ReduceLink | Site Official</title>
     <link rel="stylesheet" href="styles/index.css">
 </head>
 <body>
@@ -16,8 +16,8 @@
         <ul class="nav-items">
             <?php
             if (isset($_SESSION["user"])) {
-                echo "<li><a href='/profile.php'>Profil</a></li>";
-                echo "<li><a href='/logout.php'>Se deconnecter</a></li>";
+                echo "<li><a href='profile.php'>Profile</a></li>";
+                echo "<li><a href='./includes/logout.inc.php'>Se deconnecter</a></li>";
             } else {
                 echo "<li><a href='signin.php'>Se connecter</a></li>";
                 echo "<li><a href='signup.php'>S'inscrire</a></li>";

@@ -88,10 +88,10 @@ function loginUser($pdo, $user, $pass)
     if (!empty($user) || !empty($pass)) {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
         $stmt->execute([":userName" => $user]);
-        $resultData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $resultData = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($resultData) {
-            $checkPwd = password_verify($pass, $resultData[0]["userPassword"]);
+            $checkPwd = password_verify($pass, $resultData["userPassword"]);
 
             if ($checkPwd == false) {
                 header("location: ../signin.php?error=wrongpass");
@@ -99,7 +99,7 @@ function loginUser($pdo, $user, $pass)
             } elseif ($checkPwd == true) {
                 session_start();
                 $_SESSION["user"] = $resultData["userName"];
-                header("location: ../index.php");
+                header("location: ../profile.php");
                 exit();
             } else {
                 header("location: ../signin.php?error=wrongpass");
