@@ -127,27 +127,13 @@ function createUrl($pdo, $input_url, $short_url)
             ":long_url" => $input_url,
             ":short_url" => $short_url
         ]);
-        $resultData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($resultData) {
+        session_start();
+        $_SESSION["short"] = $short_url;
+        $_SESSION["url"] = $input_url;
 
-            if ($checkPwd == false) {
-                header("location: ../signin.php?error=wrongpass");
-                exit();
-            } elseif ($checkPwd == true) {
-                session_start();
-                $_SESSION["short"] = $resultData["short_url"];
-                header("location: ../profile.php");
-                exit();
-            } else {
-                header("location: ../signin.php?error=wrongpass");
-                exit();
-            }
-
-        } else {
-            header("location: ../signin.php?error=nouser");
-            exit();
-        }
+        header("location: ../index.php");
+        exit();
 
     } else {
         header("location: ../index.php?error=emptyinput");
