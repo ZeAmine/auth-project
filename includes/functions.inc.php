@@ -2,7 +2,6 @@
 
 function emptyInputSignup($user, $email, $password, $confirmPwd)
 {
-    $result;
     if (empty($user) || empty($email) || empty($password) || empty($confirmPwd)) {
         $result = true;
     } else {
@@ -13,7 +12,6 @@ function emptyInputSignup($user, $email, $password, $confirmPwd)
 
 function invalidUid($user)
 {
-    $result;
     if (!preg_match("/^[a-zA-Z0-9]*$/", $user)) {
         $result = true;
     } else {
@@ -24,7 +22,6 @@ function invalidUid($user)
 
 function invalidEmail($email)
 {
-    $result;
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $result = true;
     } else {
@@ -35,7 +32,6 @@ function invalidEmail($email)
 
 function pwdMatch($password, $confirmPwd)
 {
-    $result;
     if ($password !== $confirmPwd) {
         $result = true;
     } else {
@@ -99,6 +95,7 @@ function loginUser($pdo, $user, $pass)
             } elseif ($checkPwd == true) {
                 session_start();
                 $_SESSION["user"] = $resultData["userName"];
+                $_SESSION["email"] = $resultData["userEmail"];
                 header("location: ../profile.php");
                 exit();
             } else {
@@ -122,17 +119,35 @@ function loginUser($pdo, $user, $pass)
 function createUrl($pdo, $input_url, $short_url)
 {
     if (!empty($input_url)) {
-        $stmt = $pdo->prepare('INSERT INTO urls_data(long_url, short_url) VALUE (:long_url, :short_url)');
+        $stmt = $pdo->prepare('
+            INSERT INTO urls_data(long_url, short_url) 
+            VALUE (:long_url, :short_url)
+        ');
         $stmt->execute([
             ":long_url" => $input_url,
             ":short_url" => $short_url
         ]);
-        $resultData = $stmt->fetchAll();
+        $resultData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $_SESSION["short"] = $resultData["short_url"];
+        if ($resultData) {
 
-        header("location: ../index.php?error=none");
-        exit();
+            if ($checkPwd == false) {
+                header("location: ../signin.php?error=wrongpass");
+                exit();
+            } elseif ($checkPwd == true) {
+                session_start();
+                $_SESSION["short"] = $resultData["short_url"];
+                header("location: ../profile.php");
+                exit();
+            } else {
+                header("location: ../signin.php?error=wrongpass");
+                exit();
+            }
+
+        } else {
+            header("location: ../signin.php?error=nouser");
+            exit();
+        }
 
     } else {
         header("location: ../index.php?error=emptyinput");
