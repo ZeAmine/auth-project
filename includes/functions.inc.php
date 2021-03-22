@@ -96,7 +96,7 @@ function loginUser($pdo, $user, $pass)
             } elseif ($checkPwd == true) {
                 session_start();
                 $_SESSION["user"] = $resultData["userName"];
-                $_SESSION["pass"] = $resultData["userPassword"];
+                $_SESSION["email"] = $resultData["userEmail"];
                 header("location: ../profile.php");
                 exit();
             } else {
@@ -120,16 +120,20 @@ function loginUser($pdo, $user, $pass)
 function createUrl($pdo, $input_url, $short_url)
 {
     if (!empty($input_url)) {
-        $stmt = $pdo->prepare('INSERT INTO urls_data(long_url, short_url) VALUE (:long_url, :short_url)');
+        $stmt = $pdo->prepare('
+            INSERT INTO urls_data(long_url, short_url)
+            VALUE (:long_url, :short_url)
+        ');
         $stmt->execute([
             ":long_url" => $input_url,
             ":short_url" => $short_url
         ]);
-        $resultData = $stmt->fetchAll();
 
-        $_SESSION["short"] = $resultData["short_url"];
+        session_start();
+        $_SESSION["short"] = $short_url;
+        $_SESSION["url"] = $input_url;
 
-        header("location: ../index.php?error=none");
+        header("location: ../index.php");
         exit();
 
     } else {
