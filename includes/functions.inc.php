@@ -40,8 +40,9 @@ function pwdMatch($password, $confirmPwd)
     return $result;
 }
 
-function createUser($pdo, $user, $email, $password)
+function createUser($pdo, $user, $email, $password, $nbUrl)
 {
+    $nbUrl = 0;
     $stmt = $pdo->prepare("
         SELECT * FROM users WHERE userName = :userName OR userEmail = :userEmail
     ");
@@ -50,13 +51,12 @@ function createUser($pdo, $user, $email, $password)
         ":userName" => $user,
         ":userEmail" => $email,
     ]);
-
     $result = $stmt->rowCount();
 
     if ($result == 0) {
         $stmt = $pdo->prepare("
-            INSERT INTO users (userName, userEmail, userPassword)
-            VALUES (:userName, :userEmail, :userPassword)
+            INSERT INTO users (userName, userEmail, userPassword, nbUrl)
+            VALUES (:userName, :userEmail, :userPassword, :nbUrl)
         ");
 
         $hashPwd = password_hash($password, PASSWORD_DEFAULT);
@@ -65,6 +65,7 @@ function createUser($pdo, $user, $email, $password)
             ":userName" => $user,
             ":userEmail" => $email,
             ":userPassword" => $hashPwd,
+            ":nbUrl" => $nbUrl,
         ]);
 
         header("location: ../signup.php?error=none");
@@ -120,7 +121,7 @@ function createUrl($pdo, $input_url, $short_url)
 {
     if (!empty($input_url)) {
         $stmt = $pdo->prepare('
-            INSERT INTO urls_data(long_url, short_url) 
+            INSERT INTO urls_data(long_url, short_url)
             VALUE (:long_url, :short_url)
         ');
         $stmt->execute([
