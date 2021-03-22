@@ -121,11 +121,7 @@ function createUrl($pdo, $input_url, $short_url)
 {
     if (!empty($input_url)) {
         $stmt = $pdo->prepare('
-<<<<<<< HEAD
-            INSERT INTO urls_data(long_url, short_url) 
-=======
             INSERT INTO urls_data(long_url, short_url)
->>>>>>> 3df22065a6e7a7e15d7b43ffe2e4eff44056ed85
             VALUE (:long_url, :short_url)
         ');
         $stmt->execute([
