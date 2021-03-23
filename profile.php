@@ -8,11 +8,19 @@
                     <h4>Vos liens raccourci :</h4>
                     <ul class="list-url">
                         <?php if (isset($_SESSION["short"]) && isset($_SESSION["url"])): ?>
-                            <li class="item-url">
-                                <a href="<?= $_SESSION["url"] ?>"
-                                   target="_blank">http://reducelink/v.php?key=<?= $_SESSION["short"] ?></a>
-                                <button class="state" onclick="changeState()">active</button>
-                            </li>
+                            <?php if (isset($_SESSION["checked"])): ?>
+                                <li class="item-url">
+                                    <a href="<?= $_SESSION["url"] ?>"
+                                       target="_blank">http://reducelink/v.php?key=<?= $_SESSION["short"] ?></a>
+                                    <button class="state" onclick="changeState()">active</button>
+                                </li>
+                            <?php else: ?>
+                                <li class="item-url">
+                                    <a href="<?= $_SESSION["url"] ?>"
+                                       target="_blank">http://reducelink/v.php?key=<?= $_SESSION["short"] ?></a>
+                                    <button class="state">active</button>
+                                </li>
+                            <?php endif ?>
                         <?php endif; ?>
                     </ul>
                 </div>

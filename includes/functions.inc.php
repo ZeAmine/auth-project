@@ -119,27 +119,40 @@ function loginUser($pdo, $user, $pass)
 //______________________URL_________________________________
 function createUrl($pdo, $input_url, $short_url)
 {
+
     if (!empty($input_url)) {
         $stmt = $pdo->prepare('
-            INSERT INTO urls_data(long_url, short_url)
-            VALUE (:long_url, :short_url)
+            INSERT INTO urls_data(long_url, short_url, checked)
+            VALUE (:long_url, :short_url, :checked)
         ');
         $stmt->execute([
             ":long_url" => $input_url,
-            ":short_url" => $short_url
+            ":short_url" => $short_url,
         ]);
 
         session_start();
         $_SESSION["short"] = $short_url;
         $_SESSION["url"] = $input_url;
 
-        header("location: ../index.php");
-        exit();
-
     } else {
         header("location: ../index.php?error=emptyinput");
         exit();
     }
+}
+
+function check($pdo)
+{
+    $stmt = $pdo->prepare("SELECT * FROM urls_data ORDER BY id DESC");
+    $stmt->execute();
+    $resultData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($resultData["checked"]) {
+        session_start();
+        $_SESSION["checked"] = $resultData["checked"];
+    }
+
+    header("location: ../index.php");
+    exit();
 }
 
 
