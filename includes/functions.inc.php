@@ -117,9 +117,8 @@ function loginUser($pdo, $user, $pass)
 
 
 //______________________URL_________________________________
-function createUrl($pdo, $input_url, $short_url)
+function createUrl($pdo, $input_url, $short_url, $user)
 {
-
     if (!empty($input_url)) {
         $stmt = $pdo->prepare('
             INSERT INTO urls_data(long_url, short_url, checked)
@@ -129,14 +128,49 @@ function createUrl($pdo, $input_url, $short_url)
             ":long_url" => $input_url,
             ":short_url" => $short_url,
         ]);
+        // SELECT * FROM users WHERE userName = :userName OR userEmail = :userEmail
 
-        session_start();
-        $_SESSION["short"] = $short_url;
-        $_SESSION["url"] = $input_url;
+        if (!empty($input_url)) {
+            $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
+            $stmm->execute([
+                ":userName" => $user,
+            ]);
+            $actualTable = $stmm->fetchAll(PDO::FETCH_ASSOC);
+            $counter = 0;
+            foreach ($actualTable as $actualArray) {
+                foreach ($actualArray as $key => $val) {
+                    if (strstr($key, 'url') != false) {
+                        $counter++;
+                    }
+                }
+                $counter = ($counter / 2) + 1;
+            }
 
-    } else {
-        header("location: ../index.php?error=emptyinput");
-        exit();
+            var_dump($actualArray);
+            $newLong = array_search(null, $actualArray);
+            $newShort = str_replace('urlLong', 'urlShort', $newLong);
+            if (end($actualArray) != null) {
+                $newShort = 'urlShort' . $counter;
+                $newLong = 'urlLong' . $counter;
+                $stmc = $pdo->prepare("ALTER TABLE users ADD $newLong TEXT,  ADD $newShort TEXT");
+                $stmc->execute();
+            }
+            $stmt = $pdo->prepare("UPDATE users SET " . $newLong . " = :long_url, " . $newShort . " = :short_url WHERE userName = :userName");
+            $stmt->execute([
+                ":long_url" => $input_url,
+                ":short_url" => $short_url,
+                ":userName" => $user,
+            ]);
+
+            $_SESSION["short"] = $short_url;
+            $_SESSION["url"] = $input_url;
+
+            header("location: ../index.php");
+            exit();
+        } else {
+            header("location: ../index.php?error=emptyinput");
+            exit();
+        }
     }
 }
 
@@ -154,112 +188,3 @@ function check($pdo)
     header("location: ../index.php");
     exit();
 }
-
-
-//function loginUser($pdo, $username, $password)
-//{
-//    if (!empty($username) || !empty($password)) {
-//
-//        $sql = "SELECT * FROM users WHERE userName = ?;";
-//        $stmt = mysqli_stmt_init($pdo);
-//        if (!mysqli_stmt_prepare($stmt, $sql)) {
-//            header("location: ../signin . php ? error = stmtfailed");
-//            exit();
-//        }
-//
-//        mysqli_stmt_bind_param($stmt, "s", $user);
-//        mysqli_stmt_execute($stmt);
-//
-//        if ($row = mysqli_fetch_assoc($resultData)) {
-//            $checkPwd = password_verify($password, $row["userPassword"]);
-//
-//            if ($checkPwd == false) {
-//                header("location: ../signin . php ? error = wrongpass");
-//                exit();
-//            } elseif ($checkPwd == true) {
-//                session_start();
-//                $_SESSION["user"] = $row["userName"];
-//                header("location: ../index . php");
-//                exit();
-//            } else {
-//                header("location: ../signin . php ? error = wrongpass");
-//                exit();
-//            }
-//
-//        } else {
-//            header("location: ../signin . php ? error = nouser");
-//            exit();
-//        }
-//
-//    } else {
-//        header("location: ../signin . php ? error = emptyinput");
-//        exit();
-//    }
-//}
-
-//function loginUser($pdo, $username, $password)
-//{
-//    $uidExists = UidExists($pdo, $username, $username);
-//
-//    if ($uidExists === false) {
-//        header("location: ../signup . php ? error = wronglogin");
-//        exit();
-//    }
-//
-//    $pwdHashed = $uidExists["userPassword"];
-//    $checkPwd = password_verify($password, $pwdHashed);
-//
-//    if ($checkPwd === false) {
-//        header("location: ../signup . php ? error = wronglogin");
-//        exit();
-//    } else if ($checkPwd === true) {
-//        session_start();
-//        $_SESSION["user"] = $uidExists["userName"];
-//        header("location: ../index . php");
-//        exit();
-//    }
-//}
-
-
-//function createUser($pdo, $user, $email, $password)
-//{
-//    $sql = "INSERT INTO users(userName, userEmail, userPassword) VALUES(?, ?, ?);";
-//    $stmt = mysqli_stmt_init($pdo);
-//    if (!mysqli_stmt_prepare($stmt, $sql)) {
-//        header("location: ../signup . php ? error = stmtfailed");
-//        exit();
-//    }
-//
-//    $hashPwd = password_hash($password, PASSWORD_DEFAULT);
-//
-//    mysqli_stmt_bind_param($stmt, "sss", $user, $email, $hashPwd);
-//    mysqli_stmt_execute($stmt);
-//    mysqli_stmt_close($stmt);
-//    header("location: ../signup . php ? error = none");
-//    exit();
-//}
-
-
-//function UidExists($pdo, $user, $email)
-//{
-//    $sql = "SELECT * FROM users WHERE userName = ? or userEmail = ?;";
-//    $stmt = mysqli_stmt_init($pdo);
-//    if (!mysqli_stmt_prepare($stmt, $sql)) {
-//        header("location: ../signup . php ? error = stmtfailed");
-//        exit();
-//    }
-//
-//    mysqli_stmt_bind_param($stmt, "ss", $user, $email);
-//    mysqli_stmt_execute($stmt);
-//
-//    $resultData = mysqli_stmt_get_result($stmt);
-//
-//    if ($row = mysqli_fetch_assoc($resultData)) {
-//        return $row;
-//    } else {
-//        $result = false;
-//        return $result;
-//    }
-//
-//    mysqli_stmt_close($stmt);
-//}
