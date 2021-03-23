@@ -15,9 +15,6 @@
         <a href="index.php" class="nav-brand">ReduceLink.</a>
         <ul class="nav-items">
             <?php if (isset($_SESSION["user"])): ?>
-            <?php
-                
-            ?>
                 <li><a href="./profile.php">Profile</a></li>
                 <li><a href="./includes/logout.inc.php">Se deconnecter</a></li>
             <?php else: ?>
