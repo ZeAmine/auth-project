@@ -8,7 +8,7 @@ if (isset($_POST["submit"])) {
     $email = filter_input(INPUT_POST, "email");
     $password = filter_input(INPUT_POST, "password");
     $confirmPwd = filter_input(INPUT_POST, "confirm-password");
-    $nbUrl = filter_input(INPUT_POST, "nbUrl");
+    // $nbUrl = filter_input(INPUT_POST, "nbUrl");
 
     if (emptyInputSignup($user, $email, $password, $confirmPwd) !== false) {
         header("location: ../signup.php?error=emptyinput");

@@ -40,9 +40,8 @@ function pwdMatch($password, $confirmPwd)
     return $result;
 }
 
-function createUser($pdo, $user, $email, $password, $nbUrl)
+function createUser($pdo, $user, $email, $password)
 {
-    $nbUrl = 0;
     $stmt = $pdo->prepare("
         SELECT * FROM users WHERE userName = :userName OR userEmail = :userEmail
     ");
@@ -55,8 +54,8 @@ function createUser($pdo, $user, $email, $password, $nbUrl)
 
     if ($result == 0) {
         $stmt = $pdo->prepare("
-            INSERT INTO users (userName, userEmail, userPassword, nbUrl)
-            VALUES (:userName, :userEmail, :userPassword, :nbUrl)
+            INSERT INTO users (userName, userEmail, userPassword)
+            VALUES (:userName, :userEmail, :userPassword)
         ");
 
         $hashPwd = password_hash($password, PASSWORD_DEFAULT);
@@ -65,9 +64,8 @@ function createUser($pdo, $user, $email, $password, $nbUrl)
             ":userName" => $user,
             ":userEmail" => $email,
             ":userPassword" => $hashPwd,
-            ":nbUrl" => $nbUrl,
         ]);
-
+        url($pdo, $user);
         header("location: ../signup.php?error=none");
         exit();
 
@@ -86,7 +84,6 @@ function loginUser($pdo, $user, $pass)
         $stmt = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
         $stmt->execute([":userName" => $user]);
         $resultData = $stmt->fetch(PDO::FETCH_ASSOC);
-
         if ($resultData) {
             $checkPwd = password_verify($pass, $resultData["userPassword"]);
 
@@ -95,6 +92,7 @@ function loginUser($pdo, $user, $pass)
                 exit();
             } elseif ($checkPwd == true) {
                 session_start();
+                url($pdo, $user);
                 $_SESSION["user"] = $resultData["userName"];
                 $_SESSION["email"] = $resultData["userEmail"];
                 header("location: ../profile.php");
@@ -103,7 +101,6 @@ function loginUser($pdo, $user, $pass)
                 header("location: ../signin.php?error=wrongpass");
                 exit();
             }
-
         } else {
             header("location: ../signin.php?error=nouser");
             exit();
@@ -119,18 +116,8 @@ function loginUser($pdo, $user, $pass)
 //______________________URL_________________________________
 function createUrl($pdo, $input_url, $short_url, $user)
 {
-    if (!empty($input_url)) {
-        $stmt = $pdo->prepare('
-            INSERT INTO urls_data(long_url, short_url, checked)
-            VALUE (:long_url, :short_url, :checked)
-        ');
-        $stmt->execute([
-            ":long_url" => $input_url,
-            ":short_url" => $short_url,
-        ]);
-        // SELECT * FROM users WHERE userName = :userName OR userEmail = :userEmail
-
         if (!empty($input_url)) {
+            $nbUrl = 0;
             $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
             $stmm->execute([
                 ":userName" => $user,
@@ -145,8 +132,6 @@ function createUrl($pdo, $input_url, $short_url, $user)
                 }
                 $counter = ($counter / 2) + 1;
             }
-
-            var_dump($actualArray);
             $newLong = array_search(null, $actualArray);
             $newShort = str_replace('urlLong', 'urlShort', $newLong);
             if (end($actualArray) != null) {
@@ -155,13 +140,16 @@ function createUrl($pdo, $input_url, $short_url, $user)
                 $stmc = $pdo->prepare("ALTER TABLE users ADD $newLong TEXT,  ADD $newShort TEXT");
                 $stmc->execute();
             }
-            $stmt = $pdo->prepare("UPDATE users SET " . $newLong . " = :long_url, " . $newShort . " = :short_url WHERE userName = :userName");
+            $stmt = $pdo->prepare("UPDATE users SET " . $newLong . " = :long_url, " . $newShort . " = :short_url, nbUrl = :nbUrl WHERE userName = :userName");
             $stmt->execute([
                 ":long_url" => $input_url,
                 ":short_url" => $short_url,
                 ":userName" => $user,
+                ":nbUrl" => $nbUrl,
             ]);
+            // $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            url($pdo, $user);
             $_SESSION["short"] = $short_url;
             $_SESSION["url"] = $input_url;
 
@@ -171,10 +159,10 @@ function createUrl($pdo, $input_url, $short_url, $user)
             header("location: ../index.php?error=emptyinput");
             exit();
         }
-    }
+    
 }
 
-function check($pdo)
+function check($pdo, $input_url, $short_url, $user)
 {
     $stmt = $pdo->prepare("SELECT * FROM urls_data ORDER BY id DESC");
     $stmt->execute();
@@ -187,4 +175,27 @@ function check($pdo)
 
     header("location: ../index.php");
     exit();
+}
+
+function url($pdo, $user){
+    $nbUrl = 0;
+    $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
+    $stmm->execute([
+        ":userName" => $user,
+    ]);
+    $actualTable = $stmm->fetchAll(PDO::FETCH_ASSOC);
+    foreach($actualTable as $actualArray){
+        foreach($actualArray as $key => $val){
+            if(strstr($key, 'url') && $val != null){
+                $nbUrl++;
+            }
+        }
+    }
+    $nbUrl = ($nbUrl/2);
+    $_SESSION["nbUrl"] = $nbUrl;
+}
+
+
+function displayUrl($pdo, $user){
+    
 }
