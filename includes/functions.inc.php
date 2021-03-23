@@ -117,21 +117,50 @@ function loginUser($pdo, $user, $pass)
 
 
 //______________________URL_________________________________
-function createUrl($pdo, $input_url, $short_url)
+function createUrl($pdo, $input_url, $short_url, $user)
 {
+    // SELECT * FROM users WHERE userName = :userName OR userEmail = :userEmail
+
     if (!empty($input_url)) {
-        $stmt = $pdo->prepare('
-            INSERT INTO urls_data(long_url, short_url)
-            VALUE (:long_url, :short_url)
-        ');
+
+        $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
+        $stmm->execute([
+            ":userName" => $user,
+        ]);
+        $actualTable = $stmm->fetchAll(PDO::FETCH_ASSOC);
+        $counter = 0;
+        foreach($actualTable as $actualArray){
+            foreach($actualArray as $key => $val){
+                if(strstr($key, 'url') != false){
+                    $counter++;
+                }
+            }
+            $counter = ($counter/2) + 1;
+        }
+        
+        var_dump($actualArray);
+        $newLong = array_search(null, $actualArray);
+        $newShort = str_replace('urlLong', 'urlShort', $newLong);
+        if (end($actualArray) != null){
+            $newShort ='urlShort'.$counter;
+            $newLong = 'urlLong'.$counter;
+            $stmc = $pdo->prepare("ALTER TABLE users ADD $newLong TEXT,  ADD $newShort TEXT");
+            $stmc->execute();
+        }
+        $stmt = $pdo->prepare("
+        UPDATE users SET ".$newLong." = :long_url, ".$newShort." = :short_url WHERE userName = :userName
+        ");
         $stmt->execute([
             ":long_url" => $input_url,
-            ":short_url" => $short_url
+            ":short_url" => $short_url,
+            ":userName" => $user,
         ]);
 
-        session_start();
+
+
         $_SESSION["short"] = $short_url;
         $_SESSION["url"] = $input_url;
+
 
         header("location: ../index.php");
         exit();
@@ -158,7 +187,7 @@ function createUrl($pdo, $input_url, $short_url)
 //        mysqli_stmt_execute($stmt);
 //
 //        if ($row = mysqli_fetch_assoc($resultData)) {
-//            $checkPwd = password_verify($password, $row["userPassword"]);
+//            heckPwd = password_verify($password, $row["userPassword"]);
 //
 //            if ($checkPwd == false) {
 //                header("location: ../signin . php ? error = wrongpass");

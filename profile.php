@@ -8,7 +8,7 @@ $stmt = $pdo->prepare("
 $stmt->execute([
     ":userName" => $_SESSION["user"],
 ]);
-$resultData = $stmt->fetch(PDO::FETCH_ASSOC);
+    $resultData = $stmt->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -30,6 +30,7 @@ $resultData = $stmt->fetch(PDO::FETCH_ASSOC);
                     <?php if (isset($_SESSION["email"]) && isset($_SESSION["user"])): ?>
                         <p class="user"><?= $_SESSION["user"] ?></p>
                         <p class="email"><?= $_SESSION["email"] ?></p>
+                        <p>Nombre d'urls transformées : <?= $resultData['nbUrl'] ?></p>
                     <?php endif; ?>
                 </div>
             </div>
