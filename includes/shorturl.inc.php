@@ -6,6 +6,7 @@ if (isset($_POST["submit_url"])) {
 
     require_once('functions.inc.php');
     require_once('dburl.inc.php');
+
     $user = $_SESSION["user"];
     createUrl($pdo, $input_url, $short_url, $user);
 

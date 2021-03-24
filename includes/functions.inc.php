@@ -199,12 +199,11 @@ function url($pdo, $user){
 
 function displayUrl($pdo, $user){
     $count = 0;
-    
-    $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = 'aa'");
-    $stmm->execute([
-    ]);
+    $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
+    $stmm->execute([":userName" => $user]);
     $actualTable = $stmm->fetch(PDO::FETCH_ASSOC);
     foreach($actualTable as $key => $val){
+
     }
     for ($i = 0; $i<= $_SESSION['nbUrl']; $i++){
         ?>

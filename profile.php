@@ -1,9 +1,11 @@
 <?php require_once('header.php') ?>
-<?php require_once('./includes/functions.inc.php');
+<?php
+
+require_once('functions.inc.php');
+require_once('dbh.inc.php');
+
 displayUrl($pdo, $user);
 ?>
-<?php require_once('./includes/displayurl.inc.php');?>
-
 
     <section class="profile">
         <div class="container">
@@ -12,10 +14,8 @@ displayUrl($pdo, $user);
                 <div class="container-url">
                     <h4>Vos liens raccourci :</h4>
                     <ul class="list-url">
-                        <?php if (isset($_SESSION["short"]) && isset($_SESSION["url"])):
-                            displayUrl($pdo, $user);
-                            ?>
-
+                        <?php if (isset($_SESSION["user"])):?>
+                            <?= displayUrl($pdo, $user) ?>
                         <?php endif ?>
                     </ul>
                 </div>
