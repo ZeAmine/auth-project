@@ -202,18 +202,39 @@ function displayUrl($pdo, $user){
     $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
     $stmm->execute([":userName" => $user]);
     $actualTable = $stmm->fetch(PDO::FETCH_ASSOC);
-    foreach($actualTable as $key => $val){
-
-    }
-    for ($i = 0; $i<= $_SESSION['nbUrl']; $i++){
-        ?>
+    for ($i = 1; $i<= $_SESSION['nbUrl']; $i++){
+    ?>
             <li class="item-url">
-                <a href="<?= $_SESSION["url"] ?>"
-                    target="_blank">http://reducelink/v.php?key=<?= $_SESSION["short"] ?></a>
-                <button class="state" onclick="changeState()">active</button>
+                <a href="#" target="_blank">http://reducelink/v.php?key=<?=$actualTable["urlShort".$i]?></a>
+                <a href="#" target="_blank"><?=$actualTable["urlLong".$i]?></a>
+                <button class="urlBtn<?=$i?> active" onclick=changeState()>active</button>
+                <span>Supprimer</span>
             </li>
+
+
         <?php
     }
+    ?>
+    <script>
+    function changeState() {
+        let target = event.target
+        let num = target.classList[0]
+        let state = target.classList[1]
+        if (state == 'active'){
+            target.classList.remove('active');  
+            target.classList.add('inactive');
+            target.innerText = "inactive"
+        } else{
+            target.classList.remove('inactive');
+            target.classList.add('active');
+            target.innerText = "active"
+
+        }
+
+    }
+
+</script>
+<?php
 }
 
 ?>

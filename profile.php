@@ -1,8 +1,13 @@
 <?php require_once('header.php') ?>
 <?php
-
-require_once('functions.inc.php');
-require_once('dbh.inc.php');
+require_once('./includes/functions.inc.php');
+require_once('./includes/dbh.inc.php');
+$user = $_SESSION["user"];
+$username = "root";
+$password = "";
+$pdo = new PDO("mysql:host=localhost;dbname=auth-project", $username, $password, [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+]);
 
 displayUrl($pdo, $user);
 ?>
@@ -35,23 +40,14 @@ displayUrl($pdo, $user);
         </div>
     </section>
 
-    <script type="text/javascript">
-        function changeState() {
-            const btn = document.querySelector('.state')
-            const result = btn.classList.toggle("innative")
-
-            if (result) {
-                btn.innerText = "innactive"
-                btn.style.color = "darkred"
-                btn.style.border = "1px solid #912323"
-                btn.style.background = "#ee9393"
-            } else {
-                btn.innerText = "active"
-                btn.style.color = ""
-                btn.style.border = ""
-                btn.style.background = ""
-            }
-        }
+    <script>
+    // const a = document.querySelectorAll('.urlBtn');
+    // for (i in a){
+    //     if (a[i].classList.contains('urlBtn')){
+    //         let list = a[i].classList[1];
+    //         let rr = list.replace('state', '')
+    //     }
+    // }
     </script>
 
 <?php require_once('footer.php'); ?>

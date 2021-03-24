@@ -17,7 +17,7 @@ body {
     height: 100vh;
     font-size: 100%;
     line-height: 1.3;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 a, a:visited, a:hover {
@@ -370,7 +370,7 @@ button:hover {
     color: var(--black);
 }
 
-.item-url .state {
+.item-url .active {
     outline: 0;
     font-size: 14px;
     font-weight: 500;
@@ -378,7 +378,22 @@ button:hover {
     border-radius: 3px;
     border: 1px solid #5dba5d;
     background-color: lightgreen;
-    padding: 3px 10px;
+    width: 80px;
+    height: 23px;
+    transition: 300ms ease;
+    cursor: pointer;
+
+}
+.item-url .inactive {
+    outline: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: darkred;
+    border-radius: 3px;
+    border: 1px solid #912323;
+    background-color: #ee9393;
+    width: 80px;
+    height: 23px;
     transition: 300ms ease;
     cursor: pointer;
 }
