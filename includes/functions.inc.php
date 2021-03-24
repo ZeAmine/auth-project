@@ -123,6 +123,7 @@ function createUrl($pdo, $input_url, $short_url, $user)
                 ":userName" => $user,
             ]);
             $actualTable = $stmm->fetchAll(PDO::FETCH_ASSOC);
+
             $counter = 0;
             foreach ($actualTable as $actualArray) {
                 foreach ($actualArray as $key => $val) {
@@ -197,5 +198,23 @@ function url($pdo, $user){
 
 
 function displayUrl($pdo, $user){
+    $count = 0;
     
+    $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = 'aa'");
+    $stmm->execute([
+    ]);
+    $actualTable = $stmm->fetch(PDO::FETCH_ASSOC);
+    foreach($actualTable as $key => $val){
+    }
+    for ($i = 0; $i<= $_SESSION['nbUrl']; $i++){
+        ?>
+            <li class="item-url">
+                <a href="<?= $_SESSION["url"] ?>"
+                    target="_blank">http://reducelink/v.php?key=<?= $_SESSION["short"] ?></a>
+                <button class="state" onclick="changeState()">active</button>
+            </li>
+        <?php
+    }
 }
+
+?>

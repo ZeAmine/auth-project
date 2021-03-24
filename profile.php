@@ -1,4 +1,9 @@
 <?php require_once('header.php') ?>
+<?php require_once('./includes/functions.inc.php');
+displayUrl($pdo, $user);
+?>
+<?php require_once('./includes/displayurl.inc.php');?>
+
 
     <section class="profile">
         <div class="container">
@@ -7,21 +12,11 @@
                 <div class="container-url">
                     <h4>Vos liens raccourci :</h4>
                     <ul class="list-url">
-                        <?php if (isset($_SESSION["short"]) && isset($_SESSION["url"])): ?>
-                            <?php if (isset($_SESSION["checked"])): ?>
-                                <li class="item-url">
-                                    <a href="<?= $_SESSION["url"] ?>"
-                                       target="_blank">http://reducelink/v.php?key=<?= $_SESSION["short"] ?></a>
-                                    <button class="state" onclick="changeState()">active</button>
-                                </li>
-                            <?php else: ?>
-                                <li class="item-url">
-                                    <a href="<?= $_SESSION["url"] ?>"
-                                       target="_blank">http://reducelink/v.php?key=<?= $_SESSION["short"] ?></a>
-                                    <button class="state">active</button>
-                                </li>
-                            <?php endif ?>
-                        <?php endif; ?>
+                        <?php if (isset($_SESSION["short"]) && isset($_SESSION["url"])):
+                            displayUrl($pdo, $user);
+                            ?>
+
+                        <?php endif ?>
                     </ul>
                 </div>
             </div>
