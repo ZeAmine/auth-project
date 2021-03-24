@@ -38,18 +38,29 @@ displayUrl($pdo, $user);
     <script type="text/javascript">
         function changeState() {
             const btn = document.querySelector('.state')
-            const result = btn.classList.toggle("innative")
+            btn.addEventListener("click", (e) => {
+                const urlBtn = e.target.value
+                console.log(urlBtn)
+                changeStateUrl()
+            })
+            
+            function changeStateUrl() {
+                const result = btn.classList.toggle("innative")
+                const var = <?= $i ?>
 
-            if (result) {
-                btn.innerText = "innactive"
-                btn.style.color = "darkred"
-                btn.style.border = "1px solid #912323"
-                btn.style.background = "#ee9393"
-            } else {
-                btn.innerText = "active"
-                btn.style.color = ""
-                btn.style.border = ""
-                btn.style.background = ""
+                for(let i = 0; i = var; i++) {
+                    if(result) {
+                        btn.innerText = "innactive"
+                        btn.style.color = "darkred"
+                        btn.style.border = "1px solid #912323"
+                        btn.style.background = "#ee9393"
+                    } else {
+                        btn.innerText = "active"
+                        btn.style.color = ""
+                        btn.style.border = ""
+                        btn.style.background = ""
+                    }
+                }
             }
         }
     </script>
