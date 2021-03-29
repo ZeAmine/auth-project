@@ -34,7 +34,7 @@ a, a:visited, a:hover {
 }
 
 header {
-    background-color: var(--blue);
+    background-color: var(--greyBG);
     width: 100%;
     height: 80px;
     position: relative;
@@ -384,6 +384,7 @@ button:hover {
     cursor: pointer;
 
 }
+
 .item-url .inactive {
     outline: 0;
     font-size: 14px;
