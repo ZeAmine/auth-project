@@ -165,7 +165,7 @@ function createUrl($pdo, $input_url, $short_url, $user)
 			header("location: ../index.php?error=emptyinput");
 			exit();
 		}
-	
+
 }
 
 function check($pdo, $input_url, $short_url, $user)
@@ -226,7 +226,7 @@ function displayUrl($pdo, $user){
 		let num = target.classList[0]
 		let state = target.classList[1]
 		if (state == 'active'){
-			target.classList.remove('active');  
+			target.classList.remove('active');
 			target.classList.add('inactive');
 			target.innerText = "inactive"
 		} else{
@@ -241,5 +241,3 @@ function displayUrl($pdo, $user){
 </script>
 <?php
 }
-
-?>
