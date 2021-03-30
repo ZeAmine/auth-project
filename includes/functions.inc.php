@@ -212,15 +212,17 @@ function displayUrl($pdo, $user){
 			<li class="item-url">
 				<a href="#" target="_blank">http://reducelink/v.php?key=<?=$actualTable["urlShort".$i]?></a>
 				<a href="#" target="_blank"><?=$actualTable["urlLong".$i]?></a>
-				<button class="urlBtn<?=$i?> active" onclick=changeState()>active</button>
+				<button class="urlBtn<?=$i?> <?=$actualTable["state".$i]?>" onclick=changeState()>active</button>
 				<span>Supprimer</span>
 			</li>
-
-
 		<?php
 	}
 	?>
-	<script>
+
+<?php
+}
+?>
+<script>
 	function changeState() {
 		let target = event.target
 		let num = target.classList[0]
@@ -233,11 +235,22 @@ function displayUrl($pdo, $user){
 			target.classList.remove('inactive');
 			target.classList.add('active');
 			target.innerText = "active"
-
 		}
-
 	}
-
 </script>
-<?php
-}
+<script>
+	function changeState() {
+		let target = event.target
+		let num = target.classList[0]
+		let state = target.classList[1]
+		if (state == 'active'){
+			target.classList.remove('active');
+			target.classList.add('inactive');
+			target.innerText = "inactive"
+		} else{
+			target.classList.remove('inactive');
+			target.classList.add('active');
+			target.innerText = "active"
+		}
+	}
+</script>
