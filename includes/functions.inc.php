@@ -215,40 +215,29 @@ function displayUrl($pdo, $user){
                 <button class="urlBtn<?=$i?> active" onclick=changeState()>active</button>
                 <button ><img src="img/bin2.svg"></button>
             </li>
+        <?php
+    }
+    ?>
+    <script>
+    function changeState() {
+        let target = event.target
+        let num = target.classList[0]
+        let state = target.classList[1]
+        if (state == 'active'){
+            target.classList.remove('active');  
+            target.classList.add('inactive');
+            target.innerText = "inactive"
+        } else{
+            target.classList.remove('inactive');
+            target.classList.add('active');
+            target.innerText = "active"
 
+        }
 
+    }
+
+</script>
 <?php
 }
+
 ?>
-<script>
-	function changeState() {
-		let target = event.target
-		let num = target.classList[0]
-		let state = target.classList[1]
-		if (state == 'active'){
-			target.classList.remove('active');
-			target.classList.add('inactive');
-			target.innerText = "inactive"
-		} else{
-			target.classList.remove('inactive');
-			target.classList.add('active');
-			target.innerText = "active"
-		}
-	}
-</script>
-<script>
-	function changeState() {
-		let target = event.target
-		let num = target.classList[0]
-		let state = target.classList[1]
-		if (state == 'active'){
-			target.classList.remove('active');
-			target.classList.add('inactive');
-			target.innerText = "inactive"
-		} else{
-			target.classList.remove('inactive');
-			target.classList.add('active');
-			target.innerText = "active"
-		}
-	}
-</script>
