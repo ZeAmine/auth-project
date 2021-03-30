@@ -19,7 +19,7 @@
                 <li><a href="./includes/logout.inc.php">Se deconnecter</a></li>
             <?php else: ?>
                 <li><a href="signin.php">Se connecter</a></li>
-                <li><a href="signup.php">S'inscrire</a></li>
+                <li class="backgroundLi"><a class="titleLi" href="signup.php">S'inscrire</a></li>
             <?php endif; ?>
         </ul>
     </nav>
