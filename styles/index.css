@@ -53,7 +53,7 @@ nav {
 }
 
 .nav-brand {
-    font-size: 16px;
+    font-size: 30px;
     font-weight: 700;
     color: var(--purple);
     text-transform: uppercase;
@@ -80,6 +80,15 @@ nav {
     height: 36px;
 }
 
+.backgroundLi2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--purple);
+    border-radius: 35px;
+    width: 150px;
+    height: 36px;
+}
 
 .nav-items li a {
     font-size: 16px;
@@ -178,7 +187,7 @@ nav {
 .mid-body form{
     width: 80%;
     border: 1px solid var(--lineGrey);
-    border-radius: 3px;
+    border-radius: 15px;
 }
 
 .form-url {
@@ -232,14 +241,13 @@ nav {
 
 .bottom-text{
     width: 35%;
-
 }
 
 
 .inner-body p {
     top: 230px;
     left: 30%;
-    font-size: 0.9em;
+    font-size: 1.3em;
     font-weight: 600;
 }
 
@@ -377,11 +385,11 @@ input:focus {
     border: 1px solid var(--black);
 }
 
-button:hover {
+.form-url button:hover {
     background: var(--purple);
     font-weight: 600;
     color: var(--activeColor1);
-    border: 1px solid var(--activeColor1);
+    border: 2px solid var(--activeColor1);
 }
 
 /*_________________PROFILE________________________*/
@@ -392,42 +400,61 @@ button:hover {
     /*background-color: red;*/
 }
 
-.container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 60%;
-    margin: 150px auto;
-    padding: 0 80px;
-    /*background-color: blue;*/
+.container-profil {
+    display:flex;
+    flex-direction: column;
 }
 
-.container h1 {
-    position: absolute;
+.top-profil {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 10px;
+    width: 100%;
+}
+
+.left-profil h1 {
     top: 0;
-    left: 50%;
-    transform: translate(-50%);
     font-size: 3em;
     font-weight: 700;
     text-align: center;
-    margin: 80px 0;
+    margin: 20px 0;
 }
 
-.section-left {
+.left-profil p{
+    top: 0;
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-left: 20px;
+}
+
+.right-profil img {
+    width: 654px;
+    height: 470px;
+}
+
+.mid-profil {
+    padding-bottom: 50px;
+
+    height: 80%;
+    margin: 5%;
+}
+
+.mid-profil .form-url{
     display: flex;
     justify-content: center;
-    align-items: center;
-    width: 50%;
-    height: 100%;
-    padding: 40px 0;
-    position: relative;
+    border: 1px solid var(--lineGrey);
+    border-radius: 15px;
+    margin-bottom: 48px;
 }
 
-.container-url {
-    width: 100%;
-    height: 100%;
-    padding: 0 80px;
+.mid-profil .display-profil{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 48px;
 }
+
 
 .container-url h4 {
     font-size: 22px;
@@ -454,34 +481,43 @@ button:hover {
     font-size: 16px;
     font-weight: 600;
     color: var(--black);
+    margin-right: 15px;
 }
+
 
 .item-url .active {
     outline: 0;
     font-size: 14px;
     font-weight: 500;
-    color: darkgreen;
-    border-radius: 3px;
-    border: 1px solid #5dba5d;
-    background-color: lightgreen;
+    color: var(--purple);
+    border-radius: 10px;
+    border: 1px solid var(--purple);
+    background-color: var(--activeColor1);
     width: 80px;
     height: 23px;
     transition: 300ms ease;
     cursor: pointer;
-
+    margin-right: 15px;
 }
+
 .item-url .inactive {
     outline: 0;
     font-size: 14px;
     font-weight: 500;
-    color: darkred;
-    border-radius: 3px;
-    border: 1px solid #912323;
-    background-color: #ee9393;
+    color: var(--activeColor1);
+    border-radius: 10px;
+    border: 1px solid var(--activeColor1);
+    background-color: var(--purple);
     width: 80px;
     height: 23px;
     transition: 300ms ease;
     cursor: pointer;
+    margin-right: 15px;
+}
+
+.item-url button{
+    outline: 0;
+    background-color: white ;
 }
 
 
@@ -524,7 +560,35 @@ button:hover {
     text-align: center;
 }
 
+.bottom-profil {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 48px;
+}
 
+.bottom-profil img{
+    width: 487px;
+    height: 296px;
+}
+
+.bottom-text-profil{
+    width: 35%;
+}
+
+.bottom-profil h1{
+    top: 0;
+    font-size: 3em;
+    font-weight: 700;
+    margin: 20px 0;
+}
+
+.bottom-profil p{
+    top: 0;
+    font-size: 1.3em;
+    font-weight: 700;
+    margin: 20px 0;
+}
 
 
 /*_________________FOOTER________________________*/

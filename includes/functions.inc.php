@@ -208,10 +208,8 @@ function displayUrl($pdo, $user){
                 <a href="#" target="_blank">http://reducelink/v.php?key=<?=$actualTable["urlShort".$i]?></a>
                 <a href="#" target="_blank"><?=$actualTable["urlLong".$i]?></a>
                 <button class="urlBtn<?=$i?> active" onclick=changeState()>active</button>
-                <span>Supprimer</span>
+                <button ><img src="img/bin2.svg"></button>
             </li>
-
-
         <?php
     }
     ?>

@@ -1,4 +1,3 @@
-<?php require_once('index.php') ?>
 
 <footer>
     <div class="foot">

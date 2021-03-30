@@ -8,34 +8,43 @@ $password = "";
 $pdo = new PDO("mysql:host=localhost;dbname=auth-project", $username, $password, [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 ]);
-displayUrl($pdo, $user);
+
 ?>
 
     <section class="profile">
-        <div class="container">
-            <h1>Votre Profile</h1>
-            <div class="section-left">
-                <div class="container-url">
-                    <h4>Vos liens raccourci :</h4>
-                    <ul class="list-url">
-                        <?php if (isset($_SESSION["user"])):?>
-                            <?= displayUrl($pdo, $user) ?>
-                        <?php endif ?>
-                    </ul>
+        <div class="container-profil">
+            <div class="top-profil">
+                <div class="left-profil">
+                    <h1>Welcome </h1>
+                    <p>Name : <?= $_SESSION["user"] ?></p>
+                    <p>Mail : <?= $_SESSION["email"] ?></p>
+                </div>
+                <div class="right-profil">
+                    <img src="img/profilpic.jpg">
                 </div>
             </div>
-            <div class="section-right">
-                <div class="block-user">
-                    <div class="picture">
-                        <img src="./img/user.png" alt="picture profile">
-                    </div>
-                    <?php if (isset($_SESSION["email"]) && isset($_SESSION["user"])): ?>
-                        <p class="user"><?= $_SESSION["user"] ?></p>
-                        <p class="email"><?= $_SESSION["email"] ?></p>
-                        <p class="email">Nombre d'url(s) tranformées : <?=$_SESSION["nbUrl"]?></p>
-                    <?php endif; ?>
+            <div class="mid-profil">
+                <div class="form-profil">
+                    <form action="includes/shorturl.inc.php" method="POST" class="form-url">
+                        <input type="url" name="input_url" placeholder="Coller votre URL ici pour le raccourcir" pattern="https://.*" size="30"
+                            required>
+                        <button type="submit" name="submit_url" value="shorten">Raccourcir</button>
+                    </form>
+                </div>    
+                <div class="display-profil">
+                    <?= displayUrl($pdo, $user) ?>
+                </div> 
+
+            </div>
+            <div class="bottom-profil">
+                <img src="img/bottompic.jpg">
+                <div class="bottom-text-profil">
+                <h1>Voici quelques statistiques : </h1>
+                <p class="p-body">nombre d'URL transformer : <?= $_SESSION["nbUrl"] ?> </p>
                 </div>
             </div>
+
         </div>
+        
     </section>
 <?php require_once('footer.php'); ?>

@@ -16,7 +16,7 @@
         <ul class="nav-items">
             <?php if (isset($_SESSION["user"])): ?>
                 <li><a href="./profile.php">Profil</a></li>
-                <li><a href="./includes/logout.inc.php">Se deconnecter</a></li>
+                <li class="backgroundLi2"><a class="titleLi" href="./includes/logout.inc.php">Se deconnecter</a></li>
             <?php else: ?>
                 <li><a href="signin.php">Se connecter</a></li>
                 <li class="backgroundLi"><a class="titleLi" href="signup.php">S'inscrire</a></li>
