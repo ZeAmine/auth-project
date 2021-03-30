@@ -42,6 +42,11 @@ $pdo = new PDO("mysql:host=localhost;dbname=auth-project", $username, $password,
                 <h1>Voici quelques statistiques : </h1>
                 <p class="p-body">nombre d'URL transformer : <?= $_SESSION["nbUrl"] ?> </p>
                 </div>
+                <?php if (isset($_SESSION["email"]) && isset($_SESSION["user"])): ?>
+                    <p class="user"><?= $_SESSION["user"] ?></p>
+                    <p class="email"><?= $_SESSION["email"] ?></p>
+                    <p class="email">Nombre d'url(s) tranformées : <?= $_SESSION["nbUrl"] ?></p>
+                <?php endif; ?>
             </div>
 
         </div>
