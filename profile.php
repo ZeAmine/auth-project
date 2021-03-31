@@ -28,7 +28,7 @@ $pdo = new PDO("mysql:host=localhost;dbname=auth-project", $username, $password,
                     <form action="includes/shorturl.inc.php" method="POST" class="form-url">
                         <input type="url" name="input_url" placeholder="Coller votre URL ici pour le raccourcir" pattern="https://.*" size="30"
                             required>
-                        <button type="submit" name="submit_url" value="shorten">Raccourcir</button>
+                        <button class ="btnCheck" type="submit" name="submit_url" value="shorten">Raccourcir</button>
                     </form>
                 </div>    
                 <div class="display-profil">

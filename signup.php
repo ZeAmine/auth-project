@@ -7,7 +7,7 @@
             <input type="text" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Mot de passe" required>
             <input type="password" name="confirm-password" placeholder="Confirmer mot de passe" required>
-            <button type="submit" name="submit">Crée</button>
+            <button class="btnCheck" type="submit" name="submit">Crée</button>
         </form>
 
 

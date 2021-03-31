@@ -9,9 +9,7 @@
                 <?php else: ?>
                     <h1>URL Shortener</h1>
                     <p class="p-body">Stock and share your favorite Url !</p>
-                    <div class="position-button">
-                        <div class="backgroundLi"><a class="titleLi" href="signup.php">S'inscrire</a></div>
-                    </div>
+                    <a href="signin.php"><button class="btnTitle" type="submit" name="submit_url" value="shorten">S'inscrire</button></a>
                 <?php endif; ?>
             </div>
             <div class="right-body">
@@ -22,7 +20,7 @@
             <form action="includes/shorturl.inc.php" method="POST" class="form-url">
                 <input type="url" name="input_url" placeholder="Coller votre URL ici pour le raccourcir" pattern="https://.*" size="30"
                     required>
-                <button type="submit" name="submit_url" value="shorten">Raccourcir</button>
+                <button class="btnCheck" type="submit" name="submit_url" value="shorten">Raccourcir</button>
             </form>
             <p class="p-body">En utilisant notre service, vous acceptez <span class="purple-text">les conditions d’utilisation</span> et <span class="purple-text">la politique de confientialité.</span></p>
         </div>
