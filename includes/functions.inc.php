@@ -282,7 +282,7 @@ function displayUrl($pdo, $user)
                 </div>
             </div>
             <div class="display-button">
-                <h4>Click: <span class="nb-click">0</span></h4>
+                <span class="click" >Click : <span class="nb-click">0</span></span>
                 <button class="urlBtn<?= $i ?> active" onclick=changeState()>active</button>
                 <button><img src="img/bin2.svg"></button>
             </div>

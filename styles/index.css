@@ -524,6 +524,19 @@ input:focus {
 .display-button {
     display: flex;
     align-items: center;
+    justify-content: space-around;
+}
+
+.click{
+    padding-right: 15px;
+    margin-right: 10px;
+    font-size: 1em;
+    color: var(--greyS)
+}
+
+.nb-click{
+    font-size: 1.3em;
+    color: var(--purple);
 }
 
 .item-url  p{
