@@ -1,7 +1,6 @@
 <?php
 
-function emptyInputSignup($user, $email, $password, $confirmPwd)
-{
+function emptyInputSignup($user, $email, $password, $confirmPwd) {
     if (empty($user) || empty($email) || empty($password) || empty($confirmPwd)) {
         $result = true;
     } else {
@@ -10,8 +9,7 @@ function emptyInputSignup($user, $email, $password, $confirmPwd)
     return $result;
 }
 
-function invalidUid($user)
-{
+function invalidUid($user) {
     if (!preg_match("/^[a-zA-Z0-9]*$/", $user)) {
         $result = true;
     } else {
@@ -20,8 +18,7 @@ function invalidUid($user)
     return $result;
 }
 
-function invalidEmail($email)
-{
+function invalidEmail($email) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $result = true;
     } else {
@@ -30,8 +27,7 @@ function invalidEmail($email)
     return $result;
 }
 
-function pwdMatch($password, $confirmPwd)
-{
+function pwdMatch($password, $confirmPwd) {
     if ($password !== $confirmPwd) {
         $result = true;
     } else {
@@ -40,8 +36,7 @@ function pwdMatch($password, $confirmPwd)
     return $result;
 }
 
-function createUser($pdo, $user, $email, $password)
-{
+function createUser($pdo, $user, $email, $password) {
     $stmt = $pdo->prepare("SELECT * FROM users WHERE userName = :userName OR userEmail = :userEmail");
     $stmt->execute([
         ":userName" => $user,
@@ -74,8 +69,7 @@ function createUser($pdo, $user, $email, $password)
 
 //____________________LOGIN______________________________
 
-function loginUser($pdo, $user, $pass)
-{
+function loginUser($pdo, $user, $pass) {
     if (!empty($user) || !empty($pass)) {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
         $stmt->execute([":userName" => $user]);
@@ -111,8 +105,7 @@ function loginUser($pdo, $user, $pass)
 
 
 //______________________URL_________________________________
-function createUrl($pdo, $input_url, $short_url, $user)
-{
+function createUrl($pdo, $input_url, $short_url, $user) {
     if (!empty($input_url)) {
 
         $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
@@ -123,43 +116,49 @@ function createUrl($pdo, $input_url, $short_url, $user)
         $nbUrl = 0;
         $counter = 0;
 
-        foreach ($actualTable as $actualArray) {
-            foreach ($actualArray as $key => $val) {
-                if (strstr($key, 'url') != false) {
-                    $counter++;
+        if ($user) {
+            foreach ($actualTable as $actualArray) {
+                foreach ($actualArray as $key => $val) {
+                    if (strstr($key, 'url') != false) {
+                        $counter++;
+                    }
                 }
+                $counter = ($counter / 2) + 1;
             }
-            $counter = ($counter / 2) + 1;
+
+            $newLong = array_search(null, $actualArray);
+            $newShort = str_replace('urlLong', 'urlShort', $newLong);
+            $newState = 'state' . substr($newLong, -1);
+            if (end($actualArray) != null) {
+                $newShort = 'urlShort' . $counter;
+                $newLong = 'urlLong' . $counter;
+                $newState = 'state' . $counter;
+                $stmc = $pdo->prepare("ALTER TABLE users ADD $newState TEXT, ADD $newLong TEXT,  ADD $newShort TEXT");
+                $stmc->execute();
+            }
+
+            $stmt = $pdo->prepare("UPDATE users SET " . $newState . " = :state ," . $newLong . " = :long_url, " . $newShort . " = :short_url, nbUrl = :nbUrl WHERE userName = :userName");
+            $stmt->execute([
+                ":long_url" => $input_url,
+                ":short_url" => $short_url,
+                ":userName" => $user,
+                ":nbUrl" => $nbUrl,
+                ":state" => $initState,
+            ]);
+
+            url($pdo, $user);
+            $_SESSION["short"] = $short_url;
+            $_SESSION["url"] = $input_url;
+
+            header("location: ../index.php");
+            exit();
+        } else {
+            $_SESSION["short"] = $short_url;
+            $_SESSION["url"] = $input_url;
+
+            header("location: ../index.php");
+            exit();
         }
-
-        $newLong = array_search(null, $actualArray);
-        $newShort = str_replace('urlLong', 'urlShort', $newLong);
-        $newState = 'state' . substr($newLong, -1);
-        if (end($actualArray) != null) {
-            $newShort = 'urlShort' . $counter;
-            $newLong = 'urlLong' . $counter;
-            $newState = 'state' . $counter;
-            $stmc = $pdo->prepare("ALTER TABLE users ADD $newState TEXT, ADD $newLong TEXT,  ADD $newShort TEXT");
-            $stmc->execute();
-        }
-
-        var_dump($newState);
-        $stmt = $pdo->prepare("UPDATE users SET " . $newState . " = :state ," . $newLong . " = :long_url, " . $newShort . " = :short_url, nbUrl = :nbUrl WHERE userName = :userName");
-        var_dump($stmt);
-        $stmt->execute([
-            ":long_url" => $input_url,
-            ":short_url" => $short_url,
-            ":userName" => $user,
-            ":nbUrl" => $nbUrl,
-            ":state" => $initState,
-        ]);
-
-        url($pdo, $user);
-        $_SESSION["short"] = $short_url;
-        $_SESSION["url"] = $input_url;
-
-        header("location: ../index.php");
-        exit();
     } else {
         header("location: ../index.php?error=emptyinput");
         exit();
@@ -167,8 +166,7 @@ function createUrl($pdo, $input_url, $short_url, $user)
 
 }
 
-function createUrlUser($pdo, $url_user, $short_url_user, $user)
-{
+function createUrlUser($pdo, $url_user, $short_url_user, $user) {
     if (!empty($url_user)) {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
         $stmt->execute([":userName" => $user,]);
@@ -219,8 +217,7 @@ function createUrlUser($pdo, $url_user, $short_url_user, $user)
     }
 }
 
-function check($pdo, $input_url, $short_url, $user)
-{
+function check($pdo, $input_url, $short_url, $user) {
     $stmt = $pdo->prepare("SELECT * FROM urls_data ORDER BY id DESC");
     $stmt->execute();
     $resultData = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -234,8 +231,7 @@ function check($pdo, $input_url, $short_url, $user)
     exit();
 }
 
-function url($pdo, $user)
-{
+function url($pdo, $user) {
     $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
     $stmm->execute([":userName" => $user]);
     $actualTable = $stmm->fetchAll(PDO::FETCH_ASSOC);
@@ -253,14 +249,7 @@ function url($pdo, $user)
     $_SESSION["nbUrl"] = $nbUrl;
 }
 
-function click() {
-    $stmm = $pdo->prepare("UPDATE users SET nbUrl = :nbUrl WHERE");
-    $stmm->execute([]);
-    $actualTable = $stmm->fetchAll(PDO::FETCH_ASSOC);
-}
-
-function displayUrl($pdo, $user)
-{
+function displayUrl($pdo, $user) {
     $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
     $stmm->execute([":userName" => $user]);
     $actualTable = $stmm->fetch(PDO::FETCH_ASSOC);
