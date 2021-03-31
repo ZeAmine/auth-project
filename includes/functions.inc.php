@@ -211,7 +211,7 @@ function displayUrl($pdo, $user){
     ?>
             <li class="item-url">
                 <div>
-                    <p> <?= $_SESSION["nbUrl"] ?></p><!--  a changer pour mettre le chiffre correspondant au lien  -->
+                    <p> <?= $i ?></p>
                     <div class="display-url">
                         <a class="long-lenght" href="#" target="_blank"><?=$actualTable["urlLong".$i]?></a>
                         <a class="shortner-lenght" href="#" target="_blank"><span>Voici votre URL raccourci : </span>http://reducelink/v.php?key=<?=$actualTable["urlShort".$i]?></a> 

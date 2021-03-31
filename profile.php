@@ -6,11 +6,9 @@ $user = $_SESSION["user"];
 $username = "root";
 $password = "";
 $pdo = new PDO("mysql:host=localhost;dbname=auth-project", $username, $password, [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+	PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
 ]);
-
 ?>
-
     <section class="profile">
         <div class="container-profil">
             <div class="top-profil">
@@ -45,7 +43,7 @@ $pdo = new PDO("mysql:host=localhost;dbname=auth-project", $username, $password,
                 
             </div>
 
-        </div>
-        
-    </section>
+		</div>
+		
+	</section>
 <?php require_once('footer.php'); ?>

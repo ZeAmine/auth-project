@@ -505,6 +505,10 @@ input:focus {
     background-color: var(--activeColor1);
 }
 
+.item-url p{
+    width: 4vw;
+}
+
 .item-url div {
     display: flex;
     justify-content: center;
