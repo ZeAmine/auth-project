@@ -236,12 +236,12 @@ function check($pdo, $input_url, $short_url, $user)
 
 function url($pdo, $user)
 {
-    $nbUrl = 0;
     $stmm = $pdo->prepare("SELECT * FROM users WHERE userName = :userName");
-    $stmm->execute([
-        ":userName" => $user,
-    ]);
+    $stmm->execute([":userName" => $user]);
     $actualTable = $stmm->fetchAll(PDO::FETCH_ASSOC);
+
+    $nbUrl = 0;
+
     foreach ($actualTable as $actualArray) {
         foreach ($actualArray as $key => $val) {
             if (strstr($key, 'url') && $val != null) {
@@ -253,6 +253,11 @@ function url($pdo, $user)
     $_SESSION["nbUrl"] = $nbUrl;
 }
 
+function click() {
+    $stmm = $pdo->prepare("UPDATE users SET nbUrl = :nbUrl WHERE");
+    $stmm->execute([]);
+    $actualTable = $stmm->fetchAll(PDO::FETCH_ASSOC);
+}
 
 function displayUrl($pdo, $user)
 {
@@ -260,23 +265,24 @@ function displayUrl($pdo, $user)
     $stmm->execute([":userName" => $user]);
     $actualTable = $stmm->fetch(PDO::FETCH_ASSOC);
 
-    $count = 0;
-
     for ($i = 1; $i <= $_SESSION['nbUrl']; $i++) { ?>
         <li class="item-url">
             <div>
-                <p> <?= $i ?></p>
+                <p><?= $i ?></p>
                 <div class="display-url">
-                    <a class="long-lenght" href="<?= $actualTable["urlLong" . $i] ?>" target="_blank">
+                    <a class="long-lenght" href="<?= $actualTable["urlLong" . $i] ?>" target="_blank"
+                       onclick=counterUp()>
                         <?= $actualTable["urlLong" . $i] ?>
                     </a>
-                    <a class="shortner-lenght" href="<?= $actualTable["urlLong" . $i] ?>" target="_blank">
+                    <a class="shortner-lenght" href="<?= $actualTable["urlLong" . $i] ?>" target="_blank"
+                       onclick=counterUp()>
                         <span>Voici votre URL raccourci :</span>
                         http://reducelink/v.php?key=<?= $actualTable["urlShort" . $i] ?>
                     </a>
                 </div>
             </div>
             <div class="display-button">
+                <h4>Click: <span class="nb-click">0</span></h4>
                 <button class="urlBtn<?= $i ?> active" onclick=changeState()>active</button>
                 <button><img src="img/bin2.svg"></button>
             </div>
@@ -296,6 +302,11 @@ function displayUrl($pdo, $user)
                 target.classList.add('active');
                 target.innerText = "active"
             }
+        }
+
+        function counterUp() {
+            const counterNum = document.querySelector('.nb-click')
+            counterNum.innerHTML++
         }
     </script>
 <?php } ?>
