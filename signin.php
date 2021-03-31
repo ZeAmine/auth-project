@@ -5,7 +5,7 @@
         <h2>Se connecter</h2>
         <input type="text" name="user" placeholder="Nom d'utilisateur" required>
         <input type="password" name="password" placeholder="Mot de passe" required>
-        <button type="submit" name="submit">Connection</button>
+        <button class="btnCheck" type="submit" name="submit">Connection</button>
     </form>
 
     <?php
