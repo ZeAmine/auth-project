@@ -26,19 +26,20 @@
             </form>
             <p class="p-body">En utilisant notre service, vous acceptez <span class="purple-text">les conditions d’utilisation</span> et <span class="purple-text">la politique de confientialité.</span></p>
         </div>
+        <?php if (isset($_SESSION["short"]) && isset($_SESSION["url"])): ?>
+            <div class="container-url">
+                <a href="<?= $_SESSION["url"] ?>" target="_blank">http://localhost/v.php?key=<?= $_SESSION["short"] ?></a>
+            </div>
+        <?php endif; ?>
         <div class="bottom-body">
             <img src="img/lbt">
             <div class="bottom-text">
                 <h1>One short link, infinite possibilities.</h1>
-                <p class="p-body">En utilisant notre service, vous acceptez de facilité votre quotidient grace a une facilité et une rapidité d’utilisation sans pareil !</p>
+                <p class="p-body">En utilisant notre service, vous acceptez de faciliter votre quotidien grâce à une facilité et une rapidité d’utilisation sans pareil !</p>
             </div>
         </div>
     </div>
-    <?php if (isset($_SESSION["short"]) && isset($_SESSION["url"])): ?>
-        <div class="container-url">
-            <a href="<?= $_SESSION["url"] ?>" target="_blank">http://localhost/v.php?key=<?= $_SESSION["short"] ?></a>
-        </div>
-    <?php endif; ?>
+
 </section>
 
 <?php require_once('footer.php'); ?>
