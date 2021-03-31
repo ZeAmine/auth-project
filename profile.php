@@ -15,7 +15,7 @@ $pdo = new PDO("mysql:host=localhost;dbname=auth-project", $username, $password,
         <div class="container-profil">
             <div class="top-profil">
                 <div class="left-profil">
-                    <h1>Welcome </h1>
+                    <h1>Bienvenue </h1>
                     <p>Name : <?= $_SESSION["user"] ?></p>
                     <p>Mail : <?= $_SESSION["email"] ?></p>
                 </div>
@@ -40,13 +40,9 @@ $pdo = new PDO("mysql:host=localhost;dbname=auth-project", $username, $password,
                 <img src="img/bottompic.jpg">
                 <div class="bottom-text-profil">
                 <h1>Voici quelques statistiques : </h1>
-                <p class="p-body">nombre d'URL transformer : <?= $_SESSION["nbUrl"] ?> </p>
+                <p class="p-body">nombre d'URL transformé : <?= $_SESSION["nbUrl"] ?> </p>
                 </div>
-                <?php if (isset($_SESSION["email"]) && isset($_SESSION["user"])): ?>
-                    <p class="user"><?= $_SESSION["user"] ?></p>
-                    <p class="email"><?= $_SESSION["email"] ?></p>
-                    <p class="email">Nombre d'url(s) tranformées : <?= $_SESSION["nbUrl"] ?></p>
-                <?php endif; ?>
+                
             </div>
 
         </div>
