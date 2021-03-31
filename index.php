@@ -23,11 +23,12 @@
                 <button class="btnCheck" type="submit" name="submit_url" value="shorten">Raccourcir</button>
             </form>
             <p class="p-body">En utilisant notre service, vous acceptez <span class="purple-text">les conditions d’utilisation</span> et <span class="purple-text">la politique de confientialité.</span></p>
-        </div>
-        <?php if (isset($_SESSION["short"]) && isset($_SESSION["url"])): ?>
-            <div class="container-url">
-                <a href="<?= $_SESSION["url"] ?>" target="_blank">http://localhost/v.php?key=<?= $_SESSION["short"] ?></a>
+        
+             <?php if (isset($_SESSION["short"]) && isset($_SESSION["url"])): ?>
+            <div  class="item-url" class="display-url" class="container-url">
+                <a class="shortner-lenght" href="<?= $_SESSION["url"] ?>" target="_blank"><span>Voici votre URL raccourci : </span>http://localhost/v.php?key=<?= $_SESSION["short"] ?></a>
             </div>
+        </div>
         <?php endif; ?>
         <div class="bottom-body">
             <img src="img/lbt">

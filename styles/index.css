@@ -124,9 +124,6 @@ nav {
     transition: all 100ms ease;
 }
 
-
-
-
 .nav-items li a:hover {
     color: var(--black);
 }
@@ -191,7 +188,9 @@ nav {
 
 .mid-body .p-body{
     padding-top: 15px;
+    margin-bottom: 40px;
     color: black;
+    font-size: 1em;
 }
 
 .top-body .right-body img{
@@ -247,6 +246,8 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 100px;
+    margin-bottom: 50px;
 }
 
 .bottom-body img{
@@ -442,9 +443,8 @@ input:focus {
 
 .left-profil h1 {
     top: 0;
-    font-size: 3em;
+    font-size: 4em;
     font-weight: 700;
-    text-align: center;
     margin: 20px 0;
 }
 
@@ -493,6 +493,7 @@ input:focus {
     width: 60%;
     height: auto;
 }
+
 
 .item-url {
     display: flex;
@@ -565,7 +566,7 @@ input:focus {
     height: 23px;
     transition: 300ms ease;
     cursor: pointer;
-    margin-right: 15px;
+    margin-right: 30px;
 }
 
 .item-url .inactive {
@@ -580,7 +581,7 @@ input:focus {
     height: 23px;
     transition: 300ms ease;
     cursor: pointer;
-    margin-right: 15px;
+    margin-right: 30px;
 }
 
 .item-url button{
@@ -683,7 +684,7 @@ footer{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 20px;  
+    padding-top: 30px;  
 }
 
 
